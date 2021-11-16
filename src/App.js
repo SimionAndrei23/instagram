@@ -1,23 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [selectedFiles, setSelectedFiles] = useState([])
+
+  console.log(selectedFiles[2]?.image)
+
+  const addImage = (e) => {
+
+  for(let i = 0; i < e.target.files.length;i++) {
+
+    const newImage = e.target.files[i].name
+    setSelectedFiles((prevStates) => [...prevStates,{
+      image: newImage
+    }])
+
+  }
+
+}
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type = 'file' multiple onChange = {addImage} />
+      <div style = {{display: 'flex',gap: '10px',marginTop: '10px'}}>
+        {
+          !!selectedFiles.length && (
+            selectedFiles?.map((selectedFile, index) => (
+              <div key = {index}>
+                  <img src = {selectedFile?.image} style = {{width: '40px', height: '40px'}} />
+              </div>
+            ))
+          ) 
+        }
+      </div>
     </div>
   );
 }
